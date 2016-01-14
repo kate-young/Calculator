@@ -16,6 +16,7 @@
   "author": "kate-young",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^2.2.0"
+    "jquery": "^2.2.0",
+    "requirejs": "^2.1.22"
   }
 }
