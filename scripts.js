@@ -78,4 +78,14 @@ $(document).ready(function() {
         calculator.clear();
         $screen.text("");
     });
+
+    $("#negate").on("click",function() {
+       if(calculator.second_value) {
+          calculator.second_value *= -1; 
+          $screen.text(calculator.second_value); 
+       } else {
+          calculator.first_value *= -1;
+          $screen.text(calculator.first_value);
+       }
+    });
 });
