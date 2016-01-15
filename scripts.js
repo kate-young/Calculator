@@ -2,23 +2,23 @@ var calculator = {
     first_value: null,
     second_value: null,
     add: function() {
-        this.first_value + this.second_value;
+        return this.first_value + this.second_value;
     },
     multiply: function() {
-        this.first_value * second_value;
+        return this.first_value * this.second_value;
     },
     subtract: function() {
-        this.first_value - second_value;
+        return this.first_value - this.second_value;
     },
     divide: function() {
-        this.first_value / second_value;
+        return this.first_value / this.second_value;
     },
     clear: function() {
         this.first_value = 0;
         this.second_value= 0;
         this.result = 0;
     },
-    operate: function(value, operator) {
+    operate: function(operator) {
         switch(operator) {
         case "+": 
             return this.add();
@@ -38,18 +38,19 @@ var calculator = {
     }
 }
 
+
 $(document).ready(function() {
     var $screen = $("#screen");
-    var current_operator;
-    /* tells the calculator to clear the screen on next click*/
     var clear = false;
+    var current_operator = null;
 
     $(".number").on("click", function() {
+        console.log(current_operator)
         if(clear){
             $screen.text("");
             clear = false;
         }
-        if(current_operator != null) {
+        if(current_operator) {
             calculator.second_value = parseInt($screen.text() + $(this).text());
             $screen.text(calculator.second_value);
         } else {
@@ -60,13 +61,16 @@ $(document).ready(function() {
 
     $(".operator").on("click", function() {
         if(calculator.first_value) {
-           calculator.current_operator = $(this).text(); 
+           current_operator = $(this).text(); 
            clear = true;
         }        
     });
 
     $("#equals").on("click", function() {
-       if(calculator.second_value){
+       console.log(calculator.first_value);
+       console.log(current_operator);
+       console.log(calculator.second_value);
+       if(calculator.second_value) {
           $screen.text(calculator.operate(current_operator));
        } 
        calculator.first_value = parseInt($screen.text());
