@@ -1,38 +1,76 @@
 var calculator = {
-    current_value: 0,
-    add: function(value) {
-        this.current_value += value;
+    first_value: null,
+    second_value: null,
+    add: function() {
+        this.first_value + this.second_value;
     },
-    multiply: function(value) {
-        this.current_value += value;
+    multiply: function() {
+        this.first_value * second_value;
     },
-    subtract: function(value) {
-        this.current_value += value;
+    subtract: function() {
+        this.first_value - second_value;
     },
-    divide: function(value) {
-        this.current_value /= value;
+    divide: function() {
+        this.first_value / second_value;
     },
     clear: function() {
-        this.current_value = 0;
+        this.first_value = 0;
+        this.second_value= 0;
+        this.result = 0;
     },
     operate: function(value, operator) {
         switch(operator) {
         case "+": 
-            this.add(value);
+            return this.add();
             break;
         case "*":
-            this.multiply(value);
+            return this.multiply();
+            break;
+        case "-":
+            return this.subtract();
             break;
         case "/":
-            this.divide(value);
+            return this.divide();
             break;
         default:
             this.clear();
         }
     }
 }
+
 $(document).ready(function() {
+    var $screen = $("#screen");
+    var current_operator;
+    /* tells the calculator to clear the screen on next click*/
+    var clear = false;
+
     $(".number").on("click", function() {
-        calculator.current_value = parseInt($(this).text());
+        if(clear){
+            $screen.text("");
+            clear = false;
+        }
+        if(current_operator != null) {
+            calculator.second_value = parseInt($screen.text() + $(this).text());
+            $screen.text(calculator.second_value);
+        } else {
+            calculator.first_value = parseInt($screen.text() + $(this).text());
+            $screen.text(calculator.first_value);
+        }
+    });
+
+    $(".operator").on("click", function() {
+        if(calculator.first_value) {
+           calculator.current_operator = $(this).text(); 
+           clear = true;
+        }        
+    });
+
+    $("#equals").on("click", function() {
+       if(calculator.second_value){
+          $screen.text(calculator.operate(current_operator));
+       } 
+       calculator.first_value = parseInt($screen.text());
+       calculator.second_value = null;
+       current_operator = null;
     });
 });
