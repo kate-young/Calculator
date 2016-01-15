@@ -23,7 +23,7 @@ var calculator = {
         case "+": 
             return this.add();
             break;
-        case "*":
+        case "x":
             return this.multiply();
             break;
         case "-":

@@ -1,0 +1,12 @@
+.btn-square {
+    width: 35px;
+    height: 35px;
+}
+.btn-rectangle {
+    width: 158px;
+    height: 35px;
+}
+.btn {
+    border-radius: 2px;
+    margin: 1px;
+}
