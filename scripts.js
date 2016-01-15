@@ -45,7 +45,6 @@ $(document).ready(function() {
     var current_operator = null;
 
     $(".number").on("click", function() {
-        console.log(current_operator)
         if(clear){
             $screen.text("");
             clear = false;
@@ -67,14 +66,16 @@ $(document).ready(function() {
     });
 
     $("#equals").on("click", function() {
-       console.log(calculator.first_value);
-       console.log(current_operator);
-       console.log(calculator.second_value);
        if(calculator.second_value) {
           $screen.text(calculator.operate(current_operator));
        } 
        calculator.first_value = parseInt($screen.text());
        calculator.second_value = null;
        current_operator = null;
+    });
+    
+    $("#clear").on("click", function() {
+        calculator.clear();
+        $screen.text("");
     });
 });
