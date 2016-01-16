@@ -72,6 +72,7 @@ $(document).ready(function() {
        calculator.first_value = parseInt($screen.text());
        calculator.second_value = null;
        current_operator = null;
+       clear = true;
     });
     
     $("#clear").on("click", function() {
