@@ -100,4 +100,16 @@ $(document).ready(function() {
           $screen.text(calculator.first_value);
        }
     });
+
+    $("#percent").on("click",function() {
+        if(current_operator) {
+            calculator.second_value = parseFloat($screen.text() + $(this).text());
+            calculator.second_value /= 100;
+            $screen.text(calculator.second_value);
+        } else {
+            calculator.first_value = parseFloat($screen.text() + $(this).text());
+            calculator.first_value /= 100;
+            $screen.text(calculator.first_value);
+        }
+    });
 });
