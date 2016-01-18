@@ -49,15 +49,21 @@ $(document).ready(function() {
             clear = false;
         }
     }
+    var updateFirstValue = function(newValue) {
+        calculator.first_value = newValue;
+        $screen.text(calculator.first_value);
+    }
+    var updateSecondValue = function(newValue) {
+        calculator.second_value = newValue;
+        $screen.text(calculator.second_value);
+    }
 
     $(".number").on("click", function() {
         clearScreen();
         if(current_operator) {
-            calculator.second_value = parseFloat($screen.text() + $(this).text());
-            $screen.text(calculator.second_value);
+            updateSecondValue(parseFloat($screen.text() + $(this).text()));
         } else {
-            calculator.first_value = parseFloat($screen.text() + $(this).text());
-            $screen.text(calculator.first_value);
+            updateFirstValue(parseFloat($screen.text() + $(this).text()));
         }
     });
 
@@ -93,23 +99,17 @@ $(document).ready(function() {
 
     $("#negate").on("click",function() {
        if(calculator.second_value) {
-          calculator.second_value *= -1; 
-          $screen.text(calculator.second_value); 
+          updateSecondValue(calculator.second_value * -1);
        } else {
-          calculator.first_value *= -1;
-          $screen.text(calculator.first_value);
+          updateFirstValue(calculator.first_value * -1);
        }
     });
 
     $("#percent").on("click",function() {
         if(current_operator) {
-            calculator.second_value = parseFloat($screen.text() + $(this).text());
-            calculator.second_value /= 100;
-            $screen.text(calculator.second_value);
+            updateSecondValue(calculator.second_value / 100);
         } else {
-            calculator.first_value = parseFloat($screen.text() + $(this).text());
-            calculator.first_value /= 100;
-            $screen.text(calculator.first_value);
+            updateFirstValue(calculator.first_value / 100);
         }
     });
 });
