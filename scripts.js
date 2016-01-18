@@ -43,12 +43,15 @@ $(document).ready(function() {
     var $screen = $("#screen");
     var clear = false;
     var current_operator = null;
-
-    $(".number").on("click", function() {
-        if(clear){
+    var clearScreen = function() {
+        if(clear) {
             $screen.text("");
             clear = false;
         }
+    }
+
+    $(".number").on("click", function() {
+        clearScreen();
         if(current_operator) {
             calculator.second_value = parseFloat($screen.text() + $(this).text());
             $screen.text(calculator.second_value);
@@ -59,6 +62,7 @@ $(document).ready(function() {
     });
 
     $("#dot").on("click", function() {
+        clearScreen();
         if(!calculator.first_value) {
             first_value = 0;
         }
@@ -76,7 +80,7 @@ $(document).ready(function() {
        if(calculator.second_value) {
           $screen.text(calculator.operate(current_operator));
        } 
-       calculator.first_value = parseInt($screen.text());
+       calculator.first_value = parseFloat($screen.text());
        calculator.second_value = null;
        current_operator = null;
        clear = true;
