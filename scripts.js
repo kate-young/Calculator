@@ -50,12 +50,19 @@ $(document).ready(function() {
             clear = false;
         }
         if(current_operator) {
-            calculator.second_value = parseInt($screen.text() + $(this).text());
+            calculator.second_value = parseFloat($screen.text() + $(this).text());
             $screen.text(calculator.second_value);
         } else {
-            calculator.first_value = parseInt($screen.text() + $(this).text());
+            calculator.first_value = parseFloat($screen.text() + $(this).text());
             $screen.text(calculator.first_value);
         }
+    });
+
+    $("#dot").on("click", function() {
+        if(!calculator.first_value) {
+            first_value = 0;
+        }
+        $screen.text($screen.text() + ".");
     });
 
     $(".operator").on("click", function() {
