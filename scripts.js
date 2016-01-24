@@ -33,12 +33,12 @@ var calculator = {
     negate: function() {
         value = stack.pop();
         value *= -1;
-        stack.push(value);
+        return stack.push(value);
     },
     percent: function() {
         value = stack.pop();
         value *= .01;
-        stack.push(value);
+        return stack.push(value);
     },
     clear: function() {
         stack.clear();
@@ -98,7 +98,7 @@ $(document).ready(function() {
     });
 
     $("#negate").on("click",function() {
-        $sceen.text(calculator.negate());
+        $screen.text(calculator.negate());
     });
 
     $("#percent").on("click",function() {
