@@ -44,9 +44,9 @@ var calculator = {
         stack.clear();
     },
     operate: function() {
-        var second = stack.pop();
+        var second = parseFloat(stack.pop());
         var operator = stack.pop();
-        var first = stack.pop();
+        var first = parseFloat(stack.pop());
         switch(operator) {
         case "+": 
             return stack.push(first + second);
@@ -69,18 +69,13 @@ var calculator = {
 
 $(document).ready(function() {
     var $screen = $("#screen");
-    var clearScreen = function() {
-        calculator.clear();
-        $screen.text("");
-    }
     $(".number").on("click", function() {
-        var value = parseFloat($screen.text() + $(this).text());
+        var value = $screen.text() + $(this).text();
         $screen.text(calculator.update_value(value));
     });
 
     $("#dot").on("click", function() {
-        var value = parseFloat($screen.text() + $(this).text());
-        calculator.update_value(value); 
+        $screen.text($screen.text() + $(this).text());
     });
 
     $(".operator").on("click", function() {
