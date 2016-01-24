@@ -21,6 +21,13 @@ var calculator = {
     add_value: function(value) {
         stack.push(value);
     },
+    truncate: function(value) {
+        if(value.toString().length > 11) {
+            return value.substring(0, 11);
+        } else {
+            return value;
+        }
+    },
     update_value: function(value) {
         if (stack.size() == 0 || stack.size() == 2) {
             this.add_value(value);
@@ -69,34 +76,41 @@ var calculator = {
 
 $(document).ready(function() {
     var $screen = $("#screen");
+    var changeScreen = function(value) {
+        if( value.toString().length > 11) {
+            $screen.text(value.toString().substring(0,11));
+        } else {
+            $screen.text(value);
+        }
+    }
     $(".number").on("click", function() {
         var value = $screen.text() + $(this).text();
-        $screen.text(calculator.update_value(value));
+        changeScreen(calculator.update_value(value));
     });
 
     $("#dot").on("click", function() {
-        $screen.text($screen.text() + $(this).text());
+        changeScreen($screen.text() + $(this).text());
     });
 
     $(".operator").on("click", function() {
         calculator.add_value($(this).text());
-        $screen.text("");
+        changeScreen("");
     });
 
     $("#equals").on("click", function() {
-        $screen.text(calculator.operate());
+        changeScreen(calculator.operate());
     });
     
     $("#clear").on("click", function() {
         calculator.clear();
-        $screen.text("");
+        changeScreen("");
     });
 
     $("#negate").on("click",function() {
-        $screen.text(calculator.negate());
+        changeScreen(calculator.negate());
     });
 
     $("#percent").on("click",function() {
-        $screen.text(calculator.percent()); 
+        changeScreen(calculator.percent()); 
     });
 });
