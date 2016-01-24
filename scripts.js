@@ -1,36 +1,62 @@
-var calculator = {
-    first_value: null,
-    second_value: null,
-    add: function() {
-        return this.first_value + this.second_value;
+var stack = {
+    stac: new Array(),
+    pop: function() {
+        return this.stac.pop();
     },
-    multiply: function() {
-        return this.first_value * this.second_value;
-    },
-    subtract: function() {
-        return this.first_value - this.second_value;
-    },
-    divide: function() {
-        return this.first_value / this.second_value;
+    push: function(item) {
+        this.stac.push(item)
+        return item;
     },
     clear: function() {
-        this.first_value = 0;
-        this.second_value= 0;
-        this.result = 0;
+        stac = new Array();
     },
-    operate: function(operator) {
+    size: function() {
+        return this.stac.length;
+    }
+}
+
+var calculator = {
+    add_value: function(value) {
+        stack.push(value);
+    },
+    update_value: function(value) {
+        if (stack.size() == 0 || stack.size() == 2) {
+            this.add_value(value);
+        } else {
+            stack.pop();
+            stack.push(value);
+        }
+        return value;
+    },
+    negate: function() {
+        value = stack.pop();
+        value *= -1;
+        stack.push(value);
+    },
+    percent: function() {
+        value = stack.pop();
+        value *= .01;
+        stack.push(value);
+    },
+    clear: function() {
+        stack.clear();
+    },
+    operate: function() {
+        var second = stack.pop();
+        var operator = stack.pop();
+        var first = stack.pop();
         switch(operator) {
         case "+": 
-            return this.add();
+            return stack.push(first + second);
             break;
         case "x":
-            return this.multiply();
+            return stack.push(first * second);
             break;
         case "-":
-            return this.subtract();
+            return stack.push(first - second);
             break;
         case "/":
-            return this.divide();
+            return stack.push(first / second);
             break;
         default:
             this.clear();
@@ -41,55 +67,27 @@ var calculator = {
 
 $(document).ready(function() {
     var $screen = $("#screen");
-    var clear = false;
-    var current_operator = null;
     var clearScreen = function() {
-        if(clear) {
-            $screen.text("");
-            clear = false;
-        }
+        calculator.clear();
+        $screen.text("");
     }
-    var updateFirstValue = function(newValue) {
-        calculator.first_value = newValue;
-        $screen.text(calculator.first_value);
-    }
-    var updateSecondValue = function(newValue) {
-        calculator.second_value = newValue;
-        $screen.text(calculator.second_value);
-    }
-
     $(".number").on("click", function() {
-        clearScreen();
-        if(current_operator) {
-            updateSecondValue(parseFloat($screen.text() + $(this).text()));
-        } else {
-            updateFirstValue(parseFloat($screen.text() + $(this).text()));
-        }
+        var value = parseFloat($screen.text() + $(this).text());
+        $screen.text(calculator.update_value(value));
     });
 
     $("#dot").on("click", function() {
-        clearScreen();
-        if(!calculator.first_value) {
-            first_value = 0;
-        }
-        $screen.text($screen.text() + ".");
+        var value = parseFloat($screen.text() + $(this).text());
+        calculator.update_value(value); 
     });
 
     $(".operator").on("click", function() {
-        if(calculator.first_value) {
-           current_operator = $(this).text(); 
-           clear = true;
-        }        
+        calculator.add_value($(this).text());
+        $screen.text("");
     });
 
     $("#equals").on("click", function() {
-       if(calculator.second_value) {
-          $screen.text(calculator.operate(current_operator));
-       } 
-       calculator.first_value = parseFloat($screen.text());
-       calculator.second_value = null;
-       current_operator = null;
-       clear = true;
+        $screen.text(calculator.operate());
     });
     
     $("#clear").on("click", function() {
@@ -98,18 +96,10 @@ $(document).ready(function() {
     });
 
     $("#negate").on("click",function() {
-       if(calculator.second_value) {
-          updateSecondValue(calculator.second_value * -1);
-       } else {
-          updateFirstValue(calculator.first_value * -1);
-       }
+        $sceen.text(calculator.negate());
     });
 
     $("#percent").on("click",function() {
-        if(current_operator) {
-            updateSecondValue(calculator.second_value / 100);
-        } else {
-            updateFirstValue(calculator.first_value / 100);
-        }
+        $screen.text(calculator.percent()); 
     });
 });
