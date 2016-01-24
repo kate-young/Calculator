@@ -8,7 +8,9 @@ var stack = {
         return item;
     },
     clear: function() {
-        stac = new Array();
+        for(var i = 0; i < this.stac.length; i++) {
+            this.pop();
+        }
     },
     size: function() {
         return this.stac.length;
