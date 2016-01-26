@@ -77,7 +77,11 @@ var calculator = {
 $(document).ready(function() {
     var $screen = $("#screen");
     var changeScreen = function(value) {
-        if( value.toString().length > 11) {
+        if(value > 1000000) {
+            value = parseFloat(value);
+            $screen.text(value.toExponential().toString())
+        }
+        else if( value.toString().length > 11) {
             $screen.text(value.toString().substring(0,11));
         } else {
             $screen.text(value);
