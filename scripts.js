@@ -50,6 +50,12 @@ var calculator = {
     clear: function() {
         stack.clear();
     },
+    has_value: function() {
+        return stack.size() > 0;
+    },
+    is_full: function() {
+        return stack.size() >= 3;
+    },
     operate: function() {
         var second = parseFloat(stack.pop());
         var operator = stack.pop();
@@ -97,6 +103,9 @@ $(document).ready(function() {
     });
 
     $(".operator").on("click", function() {
+        if(calculator.is_full()) {
+            changeScreen(calculator.operate());
+        }
         calculator.add_value($(this).text());
         changeScreen("");
     });
