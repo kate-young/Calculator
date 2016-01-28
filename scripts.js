@@ -82,6 +82,7 @@ var calculator = {
 
 $(document).ready(function() {
     var $screen = $("#screen");
+    var clearScreen = false;
     var changeScreen = function(value) {
         if(value > 1000000) {
             value = parseFloat(value);
@@ -93,7 +94,14 @@ $(document).ready(function() {
             $screen.text(value);
         }
     }
+    var clear = function() {
+        changeScreen("");
+        clearScreen = false;
+    }
     $(".number").on("click", function() {
+        if(clearScreen) {
+            clear();
+        }
         var value = $screen.text() + $(this).text();
         changeScreen(calculator.update_value(value));
     });
@@ -107,7 +115,7 @@ $(document).ready(function() {
             changeScreen(calculator.operate());
         }
         calculator.add_value($(this).text());
-        changeScreen("");
+        clearScreen = true;
     });
 
     $("#equals").on("click", function() {
@@ -116,7 +124,7 @@ $(document).ready(function() {
     
     $("#clear").on("click", function() {
         calculator.clear();
-        changeScreen("");
+        clear();
     });
 
     $("#negate").on("click",function() {
