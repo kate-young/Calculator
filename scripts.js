@@ -14,7 +14,7 @@ var stack = {
     },
     size: function() {
         return this.stac.length;
-    }
+    },
 }
 
 var calculator = {
@@ -55,6 +55,9 @@ var calculator = {
     },
     is_full: function() {
         return stack.size() >= 3;
+    },
+    has_operator: function() {
+        return stack.size() === 2;
     },
     operate: function() {
         var second = parseFloat(stack.pop());
@@ -111,6 +114,9 @@ $(document).ready(function() {
     });
 
     $(".operator").on("click", function() {
+        if(calculator.has_operator()) {
+            return;
+        }
         if(calculator.is_full()) {
             changeScreen(calculator.operate());
         }
